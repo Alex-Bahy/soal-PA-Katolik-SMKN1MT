@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CBT - SMKN 1 Maluku Tengah</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;450&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #0B3C5D; --secondary: #1F77B4; --accent: #F39C12; --bg: #f0f2f5;
@@ -23,7 +23,7 @@
     .question-card { background: white; padding: 30px; border-radius: 16px; margin: 30px auto; max-width: 850px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
     .option-item { border: 2px solid #eef0f2; border-radius: 12px; padding: 15px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; }
     .option-item:hover { background: #f0f7ff; border-color: var(--secondary); }
-    .option-item.selected { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
+    .option-item.selected { background: var(--primary); color: white; border-color: var(--primary); font-weight: 450; }
     
     .btn-action { border-radius: 12px; padding: 12px 30px; font-weight: bold; transition: 0.3s; }
     .btn-primary { background: var(--primary); border: none; }
@@ -61,7 +61,7 @@
     <h3 class="fw-bold text-center mb-4">PETUNJUK UJIAN</h3>
     <div class="alert alert-info">Halo, <strong id="studentName"></strong>. Harap baca instruksi dengan teliti!</div>
     <ul class="list-group list-group-flush mb-4">
-      <li class="list-group-item">1. Waktu pengerjaan adalah <strong>45Menit</strong>.</li>
+      <li class="list-group-item">1. Waktu pengerjaan adalah <strong>45 Menit</strong>.</li>
       <li class="list-group-item">2. Dilarang <strong>Pindah Tab, Minimize, atau Membuka Aplikasi lain</strong>.</li>
       <li class="list-group-item">3. Sistem mendeteksi <strong>Split Screen</strong>. Jika dilakukan, ujian akan dianggap selesai.</li>
       <li class="list-group-item">4. Soal akan tampil satu per satu secara acak.</li>
@@ -105,7 +105,7 @@
   let questions = [];
   let current = 0;
   let userAnswers = {};
-  let timerSec = 3600;
+  let timerSec = 3450;
   let isActive = false;
   let student = "";
   let cheatStatus = "Aman/Jujur";
@@ -161,8 +161,8 @@
   function startTimer() {
     const t = setInterval(() => {
       if(!isActive) clearInterval(t);
-      let m = Math.floor(timerSec / 60);
-      let s = timerSec % 60;
+      let m = Math.floor(timerSec / 45);
+      let s = timerSec % 45;
       document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
       if(timerSec <= 0) { clearInterval(t); finishExam(); }
       timerSec--;
