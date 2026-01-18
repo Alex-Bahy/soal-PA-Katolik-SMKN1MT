@@ -1,0 +1,71 @@
+/**
+ * PROJECT: UJIAN ONLINE SMKN 1 MALUKU TENGAH
+ * MAPEL: PENDIDIKAN AGAMA KATOLIK KELAS XII
+ */
+
+const SS_ID = "1eRcXO17XbF4-_4Jdm7Yp4ZCQdCZy2AY3C5MtCoD20M4";
+const EMAIL_ADMIN = "alexbahy@500gb.cloud";
+
+function doGet() {
+  return HtmlService.createTemplateFromFile('index')
+    .evaluate()
+    .setTitle('Ujian Agama Katolik - SMKN 1 Malteng')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function getQuestions() {
+  // Soal diambil lengkap dari dokumen Word yang diunggah
+  const rawData = [
+    { q: "Berdasarkan Kitab Kejadian 1:26-27, manusia diciptakan menurut...", a: ["Kehendak malaikat", "Gambar dan rupa Allah", "Keinginan alam semesta", "Garis keturunan leluhur", "Budaya masyarakat sekitar"], c: 1 },
+    { q: "Istilah yang digunakan dalam Kejadian 2:18 untuk menggambarkan peran perempuan bagi laki-laki adalah...", a: ["Pelayan yang setia", "Penguasa yang adil", "Penolong yang sepadan", "Bawahan yang taat", "Pemimpin yang tangguh"], c: 2 },
+    { q: "Apa yang dimaksud dengan 'kesetaraan gender' menurut materi yang dipelajari?", a: ["Laki-laki dan perempuan harus menjadi sama persis", "Perempuan harus mengambil alih tugas laki-laki", "Hak, tanggung jawab, dan kesempatan tidak dibatasi gender", "Penghapusan perbedaan biologis", "Kekuasaan penuh pada satu pihak"], c: 2 },
+    { q: "Budaya yang menempatkan laki-laki sebagai pemegang kekuasaan utama disebut...", a: ["Matriarki", "Sosialis", "Patriarki", "Monarki", "Demokrasi"], c: 2 },
+    { q: "Kutipan dari puisi Maudy Ayunda 'Menghapus Katanya' adalah...", a: ["Perempuan adalah pelengkap hiasan dunia", "Laki-laki adalah satu-satunya pemimpin", "Perempuan tidak harus terperangkap definisi yang menyempitkan", "Kesetaraan adalah tentang kekuatan fisik", "Dunia tempat laki-laki berkuasa"], c: 2 },
+    { q: "Menurut Katekismus Gereja Katolik (KGK) 371-373, manusia diciptakan untuk...", a: ["Hidup sendiri-sendiri", "Bersaing satu sama lain", "Persekutuan pribadi", "Menguasai sesama", "Mencari kekayaan materi"], c: 2 },
+    { q: "Simbol yang menunjukkan perempuan memiliki martabat yang sama dengan laki-laki adalah...", a: ["Debu tanah berbeda", "Tulang rusuk pria", "Hari berbeda", "Melayani fisik pria", "Penguasa atas laki-laki"], c: 1 },
+    { q: "Wujud syukur atas penciptaan diri sebagai laki-laki atau perempuan adalah...", a: ["Mengikuti tren", "Merasa lebih hebat", "Menerima diri sebagai anugerah", "Mengubah identitas", "Membatasi pergaulan"], c: 2 },
+    { q: "Mengapa perbedaan biologis disebut bersifat 'komplementer'?", a: ["Memisahkan tugas secara kaku", "Laki-laki lebih kuat", "Dirancang saling melengkapi", "Perempuan butuh bantuan", "Derajat tidak sama"], c: 2 },
+    { q: "Tindakan mencerminkan penghormatan martabat sesama adalah...", a: ["Pekerjaan hanya untuk laki-laki", "Kesempatan sama tanpa stereotip", "Urusan domestik hanya perempuan", "Menuntut hak tanpa tanggung jawab", "Membeda-bedakan upah"], c: 1 },
+    { q: "Dunia mengecewakan perempuan merujuk pada fenomena...", a: ["Kurang populasi", "Keberhasilan politik", "Banyak diskriminasi dan kekerasan", "Keputusan tidak bekerja", "Kesetaraan sudah tercapai"], c: 2 },
+    { q: "Pandangan Gereja terhadap peran domestik adalah...", a: ["Kewajiban mutlak perempuan", "Tidak penting", "Tugas bersama melalui kemitraan sejati", "Hanya dilakukan laki-laki", "Beban iman"], c: 2 },
+    { q: "Sikap terhadap perempuan yang kritis menurut ajaran Kristiani adalah...", a: ["Ancaman", "Penggunaan akal budi anugerah Tuhan", "Diminta diam", "Dijauhi", "Diberi sanksi"], c: 1 },
+    { q: "Arti 'tulang dari tulangku dan daging dari dagingku' (Kej 2:23)...", a: ["Harta milik laki-laki", "Hakikat kemanusiaan yang sama", "Tanggung jawab fisik", "Perlindungan laki-laki", "Kesatuan darah"], c: 1 },
+    { q: "Tugas manusia sebagai 'Mitra Karya Pencipta' (KGK) adalah...", a: ["Menguasai alam untuk pribadi", "Mengelola dunia dan meneruskan kehidupan", "Membiarkan dunia berkembang sendiri", "Menggantikan Tuhan", "Aturan kelompok tertentu"], c: 1 },
+    { q: "Dampak negatif budaya patriarki adalah...", a: ["Kesejahteraan merata", "Peluang karir luas", "Ketidakadilan dan pembatasan potensi perempuan", "Rasa persaudaraan kuat", "Hilang perbedaan gender"], c: 2 },
+    { q: "Tindakan nyata kesetaraan gender di sekolah adalah...", a: ["Ketua kelas harus laki-laki", "Ejek teman sensitif", "Bekerja sama tanpa membedakan tugas gender", "Perempuan menyapu saja", "Geng satu gender"], c: 2 },
+    { q: "Mengapa 'Citra Allah' menjadi dasar kesetaraan?", a: ["Allah suka yang setara", "Martabat berasal dari Pencipta", "Hanya ada pada laki-laki", "Boleh melakukan apa saja", "Fisik identik"], c: 1 },
+    { q: "Langkah mematahkan stereotip 'Emosional = tidak logis'...", a: ["Tidak boleh emosi", "Emosi dan logika bagian kemanusiaan setiap orang", "Laki-laki lebih logis", "Abaikan pendapat perempuan", "Cara pikir sama"], c: 1 },
+    { q: "Tujuan utama pemberdayaan perempuan adalah...", a: ["Lebih kuasa dari laki-laki", "Hilangkan peran laki-laki", "Tingkatkan kualitas hidup untuk kontribusi maksimal", "Persaingan tidak sehat", "Ubah kodrat"], c: 2 },
+    { q: "Solusi Karir vs Keluarga dalam kemitraan sejati adalah...", a: ["Korbankan karir", "Berbagi tanggung jawab domestik dan dukungan karir", "Serahkan anak ke pengasuh", "Laki-laki mutlak memutuskan", "Hapus institusi keluarga"], c: 1 },
+    { q: "Konsep 'Penolong yang Sepadan' (Kej 2:18) bermakna setara karena...", a: ["Asosiasi asisten", "Senioritas laki-laki", "Bagian tubuh pria", "Kata 'Ezer' juga digunakan untuk Allah", "Tugas yang lemah"], c: 3 },
+    { q: "Saran untuk laki-laki yang ragu masuk tata boga karena stereotip...", a: ["Masuk teknik", "Dukung karena bebas kembangkan potensi", "Pikir kembali", "Hobi bukan profesi", "Sembunyi-sembunyi"], c: 1 },
+    { q: "Prinsip 'Satu Daging' menentang KDRT karena...", a: ["KDRT mendidik", "Melukai pasangan sama dengan melukai diri dan citra Allah", "Urusan pribadi", "Bumbu hubungan", "Hak laki-laki"], c: 1 },
+    { q: "Implementasi 'Kesetaraan untuk Kemajuan Bersama' membantu keadilan melalui...", a: ["Prioritas perempuan", "Akses sumber daya tanpa diskriminasi", "Jumlah karyawan sama persis", "Hapus adat", "Bantuan materi ke perempuan"], c: 1 }
+  ];
+  
+  // Mengacak soal untuk setiap siswa
+  return rawData.sort(() => Math.random() - 0.5);
+}
+
+function submitExam(data) {
+  const ss = SpreadsheetApp.openById(SS_ID);
+  const sheet = ss.getSheetByName("Sheet1");
+  const timestamp = new Date();
+  
+  sheet.appendRow([
+    timestamp, 
+    data.nama, 
+    data.skorBenar, 
+    data.totalSoal, 
+    data.nilai, 
+    data.statusCurang
+  ]);
+
+  // Kirim Notifikasi Email
+  const subjek = `[HASIL UJIAN] ${data.nama} - Nilai: ${data.nilai}`;
+  const body = `Nama: ${data.nama}\nNilai: ${data.nilai}\nBenar: ${data.skorBenar}/${data.totalSoal}\nKecurangan: ${data.statusCurang}\nWaktu: ${timestamp}`;
+  MailApp.sendEmail(EMAIL_ADMIN, subjek, body);
+  
+  return true;
+}
